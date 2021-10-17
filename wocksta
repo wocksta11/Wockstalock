@@ -1,0 +1,321 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Pi-314Git/Roseware-Library/main/PiModedImGuiUiLibrary.lua"))()
+
+local Window = library:AddWindow("Wocksta🩸 Hub", {
+    main_color = Color3.fromRGB(10, 10, 10),
+    min_size = Vector2.new(450, 500),
+    toggle_key = Enum.KeyCode.RightShift,
+    can_resize = true,
+})
+
+local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/Pi-314Git/CreditsToStefanuk12/main/ModuleF.lua"))()
+local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+ESP:Toggle(false)
+ESP.Tracers = false
+ESP.Names = false
+ESP.Boxes = false
+Aiming.TeamCheck(false)
+Aiming.VisibleCheck = false
+-- // Dependencies
+
+-- // Services
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+-- // Vars
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local CurrentCamera = Workspace.CurrentCamera
+
+local themes = {
+    Background = Color3.fromRGB(24, 24, 24),
+    Glow = Color3.fromRGB(0, 0, 0),
+    Accent = Color3.fromRGB(10, 10, 10),
+    LightContrast = Color3.fromRGB(20, 20, 20),
+    DarkContrast = Color3.fromRGB(14, 14, 14),  
+    TextColor = Color3.fromRGB(255, 255, 255)
+}
+
+local DaHoodSettings = {
+    SilentAim = false,
+    AimLock = true,
+    Prediction = 0.165
+}
+
+getgenv().DaHoodSettings = DaHoodSettings
+
+local function callback(text)
+    if text == "Yes" then
+    print("User said yes")
+    elseif text == "No" then
+    print("User said no")
+    end
+end
+
+local bindableFunction= Instance.new("BindableFunction")
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Wocksta🩸 Hub";
+    Text = "Welcome to Wocksta🩸 Hub , PLEASE JOIN MY DISCORD SERVER";
+    Icon = "RBXID OR BLANK";
+    Duration = "DURATION IN SECONDS";
+    callbakc = bindableFunction;
+    Button1 = "Okay :)";
+})
+
+local ALTab = Window:AddTab("Aimlock")
+local ESPTab = Window:AddTab("Esp")
+local RCTab = Window:AddTab("Misc")
+local CreditTAB = Window:AddTab("Credits")
+
+CreditTAB:AddButton("https://discord.gg/wscHGBvz", function(bool)
+    setclipboard("https://discord.gg/wscHGBvz")
+    wait(1)
+    local function callback(text)
+        if text == "Yes" then
+        print("User said yes")
+        elseif text == "No" then
+        print("User said no")
+        end
+    end
+    
+    local bindableFunction= Instance.new("BindableFunction")
+    
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Wocksta🩸 Hub";
+        Text = "Discord Link Copied On Clipboard";
+        Icon = "RBXID OR BLANK";
+        Duration = "DURATION IN SECONDS";
+        callbakc = bindableFunction;
+        Button1 = "Okay, Thanks :)";
+    })
+end)
+
+CreditTAB:AddButton("Owner : Wocksta🩸#9999", function(bool)
+    setclipboard("Wocksta🩸#9999")
+    wait(1)
+    local function callback(text)
+        if text == "Yes" then
+        print("User said yes")
+        elseif text == "No" then
+        print("User said no")
+        end
+    end
+    
+    local bindableFunction= Instance.new("BindableFunction")
+    
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Wocksta🩸";
+        Text = "Discord Link Copied On Clipboard";
+        Icon = "RBXID OR BLANK";
+        Duration = "DURATION IN SECONDS";
+        callbakc = bindableFunction;
+        Button1 = "Okay, Thanks :)";
+    })
+end)
+
+RCTab:AddButton("Fly (X)", function(bool)
+    repeat wait() 
+	until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Head") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
+local mouse = game.Players.LocalPlayer:GetMouse() 
+repeat wait() until mouse
+local plr = game.Players.LocalPlayer 
+local torso = plr.Character.Head 
+local flying = false
+local deb = true 
+local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+local maxspeed = 400 
+local speed = 5000 
+
+function Fly() 
+local bg = Instance.new("BodyGyro", torso) 
+bg.P = 9e4 
+bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+bg.cframe = torso.CFrame 
+local bv = Instance.new("BodyVelocity", torso) 
+bv.velocity = Vector3.new(0,0.1,0) 
+bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
+repeat wait() 
+plr.Character.Humanoid.PlatformStand = true 
+if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+speed = speed+.5+(speed/maxspeed) 
+if speed > maxspeed then 
+speed = maxspeed 
+end 
+elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+speed = speed-1 
+if speed < 0 then 
+speed = 0 
+end 
+end 
+if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+else 
+bv.velocity = Vector3.new(0,0.1,0) 
+end 
+bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+until not flying 
+ctrl = {f = 0, b = 0, l = 0, r = 0} 
+lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+speed = 0 
+bg:Destroy() 
+bv:Destroy() 
+plr.Character.Humanoid.PlatformStand = false 
+end 
+mouse.KeyDown:connect(function(key) 
+if key:lower() == "x" then 
+if flying then flying = false 
+else 
+flying = true 
+Fly() 
+end 
+elseif key:lower() == "w" then 
+ctrl.f = 1 
+elseif key:lower() == "s" then 
+ctrl.b = -1 
+elseif key:lower() == "a" then 
+ctrl.l = -1 
+elseif key:lower() == "d" then 
+ctrl.r = 1 
+end 
+end) 
+mouse.KeyUp:connect(function(key) 
+if key:lower() == "w" then 
+ctrl.f = 0 
+elseif key:lower() == "s" then 
+ctrl.b = 0 
+elseif key:lower() == "a" then 
+ctrl.l = 0 
+elseif key:lower() == "d" then 
+ctrl.r = 0 
+end 
+end)
+Fly()
+end)
+
+ESPTab:AddSwitch("Enable ESP", function(bool)
+    ESP:Toggle(bool)
+end)
+
+ESPTab:AddSwitch("Enable Tracers", function(bool)
+    ESP.Tracers = bool
+end)
+
+ESPTab:AddSwitch("Enable Names", function(bool)
+    ESP.Names = bool
+end)
+
+ESPTab:AddSwitch("Enable Boxes", function(bool)
+    ESP.Boxes = bool
+end)
+
+ALTab:AddSwitch("Silent Aim", function(bool)
+    DaHoodSettings.SilentAim = bool
+end)
+
+ALTab:AddSwitch("Aim Lock", function(bool)
+    DaHoodSettings.AimLock = bool
+end)
+
+ALTab:AddSwitch("Webhook Mode", function(bool)
+    DaHoodSettings.Web = bool
+end)
+
+ALTab:AddSwitch("Notification Mode", function(bool)
+    DaHoodSettings.Not = bool
+end)
+
+ALTab:AddSwitch("Copy Mode", function(bool)
+    DaHoodSettings.Cop = bool
+end)
+
+
+ALTab:AddSwitch("FOV Circle", function(bool)
+    Aiming.ShowFOV = bool
+end)
+
+ALTab:AddSlider("FOV Size", function(value)
+    Aiming.FOV = value
+end, {
+    ["min"] = 0,
+    ["max"] = 400,
+    ["readonly"] = false,
+})
+
+ALTab:AddSlider("Prediction", function(value)
+    DaHoodSettings.Prediction = tonumer("0." .. value)
+end, {
+    ["min"] = 0,
+    ["max"] = 500,
+    ["readonly"] = false,
+})
+
+ALTab:AddSwitch("Visible Check", function(bool)
+    Aiming.VisibleCheck = bool
+end)
+
+ALTab:AddSwitch("Hit all Airshots", function(bool)
+    Aiming.Airshots = true
+end)
+
+-- // Overwrite to account downed
+function Aiming.Check()
+    -- // Check A
+    if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
+        return false
+    end
+
+    -- // Check if downed
+    local Character = Aiming.Character(Aiming.Selected)
+    local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
+    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+
+    -- // Check B
+    if (KOd or Grabbed) then
+        return false
+    end
+
+    -- //
+    return true
+end
+
+-- // Hook
+local __index
+__index = hookmetamethod(game, "__index", function(t, k)
+    -- // Check if it trying to get our mouse's hit or target and see if we can use it
+    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
+        -- // Vars
+        local SelectedPart = Aiming.SelectedPart
+
+        -- // Hit/Target
+        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
+            -- // Hit to account prediction
+            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+
+            -- // Return modded val
+            return (k == "Hit" and Hit or SelectedPart)
+        end
+    end
+
+    -- // Return
+    return __index(t, k)
+end)
+
+-- // Aimlock
+RunService:BindToRenderStep("AimLock", 0, function()
+    if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(Enum.KeyCode[string.upper(AimlockKey)])) then
+        -- // Vars
+        local SelectedPart = Aiming.SelectedPart
+
+        -- // Hit to account prediction
+        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+
+        -- // Set the camera to face towards the Hit
+        CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
+    end
+end)
